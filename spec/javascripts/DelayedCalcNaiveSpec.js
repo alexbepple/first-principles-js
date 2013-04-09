@@ -13,17 +13,11 @@ var newDelayedCalculator = function() {
 
 describe('Delayed calculator', function() {
     it('calls function after delay', function() {
-        var calculator, start;
-        
-        runs(function() {
-            start = Date.now();
-            calculator = newDelayedCalculator();
-            calculator.calculate();
-        });
-        waitsFor(function() { return (Date.now()-start) > 500; });
-        runs(function() {
-            expect(calculator.getResult()).toEqual(42);
-        });
+        jasmine.Clock.useMock();
+        var calculator = newDelayedCalculator();
+        calculator.calculate();
+        jasmine.Clock.tick(501);
+        expect(calculator.getResult()).toEqual(42);
     });
 });
 
