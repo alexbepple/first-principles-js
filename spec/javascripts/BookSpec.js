@@ -13,13 +13,30 @@ function Book() {
 	};
 }
 
-describe('Book', function() {
-    it('can be lent and returned', function() {
-        var book = new Book();
-        expect(book.isLendable()).toBeTruthy();
-        book.borrow();
-        expect(book.isLendable()).toBeFalsy();
-        book.give_back();
-        expect(book.isLendable()).toBeTruthy();
+describe('Book,', function() {
+    var book;
+
+    beforeEach(function() {
+        book = new Book();
+    });
+
+    describe('when new,', function() {
+        it('can be lent', function() {
+            expect(book.isLendable()).toBeTruthy();
+        });
+    });
+
+    describe('when borrowed,', function() {
+        beforeEach(function() {
+            book.borrow();
+        });
+        it('cannot be lent', function() {
+            expect(book.isLendable()).toBeFalsy();
+        });
+
+        it('can be lent again after it is returned', function() {
+            book.give_back();
+            expect(book.isLendable()).toBeTruthy();
+        });
     });
 });

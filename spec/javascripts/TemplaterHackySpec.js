@@ -1,10 +1,10 @@
 function Templater() {
-    function supplant(str, params) {
+    this._supplant = function(str, params) {
         for (var prop in params) {
             str = str.split("{" + prop +"}").join(params[prop]);
         }
         return str;
-    }
+    };
 
     var templates = {};
 
@@ -17,15 +17,15 @@ function Templater() {
             throw "Template " + name + " not found!";
         }
 
-        return supplant(templates[name], params);
+        return this._supplant(templates[name], params);
     };
 }
 
 describe('Templater', function() {
     it('replaces placeholders with actual values', function() {
         var templater = new Templater();
-        templater.defineTemplate('foo', 'foo {bar}');
-        var rendered = templater.render('foo', {bar: 'baz'});
+        var rendered = templater._supplant('foo {bar}', {bar: 'baz'});
         expect(rendered).toBe('foo baz');
     });
 });
+

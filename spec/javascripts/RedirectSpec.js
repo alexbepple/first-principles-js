@@ -1,16 +1,23 @@
 function redirectTo(url) {
-    if (url.charAt(0) === "#") {
-        window.location.hash = url;
-    } else if (url.charAt(0) === "/") {
-        window.location.pathname = url;
-    } else {
-        window.location.href = url;
-    }
+    window.location[_locationComponent(url)] = url;
+}
+
+function locationComponent(url) {
+    if (url.charAt(0) === "#")
+        return 'hash';
+    if (url.charAt(0) === '/')
+        return 'pathname';
+    return 'href';
 }
 
 describe('redirectTo', function() {
     it('redirects to anchors', function() {
-        redirectTo('#foo');
-        expect(window.location.hash).toBe('#foo');
+        expect(locationComponent('#foo')).toBe('hash');
+    });
+    it('redirects to relative resources', function() {
+        expect(locationComponent('/foo')).toBe('pathname');
+    });
+    it('redirects to full uris', function() {
+        expect(locationComponent('http://a.b.c')).toBe('href');
     });
 });

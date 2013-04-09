@@ -1,4 +1,4 @@
-var dataStore = (function() {
+var newDataStore = function() {
     var data = [];
     return {
         push: function (item) {
@@ -11,9 +11,13 @@ var dataStore = (function() {
             return data.length;
         }
     };
-}());
+};
 
 describe('Data store', function() {
+    var dataStore;
+    beforeEach(function() {
+        dataStore = newDataStore();
+    });
     it('pops', function() {
         dataStore.push(0);
         expect(dataStore.pop()).toBe(0);
